@@ -18,7 +18,7 @@ class Venue extends Model
         'description',
     ];
 
-    protected function sportType(): BelongsTo
+    public function sportType(): BelongsTo
     {
         return $this->belongsTo(SportType::class);
     }
