@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\SportTypeController;
 use App\Http\Controllers\VenueController;
 use Illuminate\Http\Request;
@@ -20,5 +21,6 @@ Route::middleware(['auth:sanctum'])->get('/user', function () {
     return response()->json(["hello" => "world"]);
 });
 
-Route::resource('sport-types', SportTypeController::class);
-Route::resource('venues', VenueController::class);
+Route::apiResource('sport-types', SportTypeController::class);
+Route::apiResource('venues', VenueController::class);
+Route::apiResource('reservations', ReservationController::class);

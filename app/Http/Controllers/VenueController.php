@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\VenueRequest;
 use App\Http\Resources\VenueResource;
 use App\Models\Venue;
-use Illuminate\Support\Facades\Storage;
 
 class VenueController extends Controller
 {
@@ -13,7 +12,9 @@ class VenueController extends Controller
     {
 //        $this->authorize('viewAny', Venue::class);
 
-        return VenueResource::collection(Venue::all());
+        $venus = Venue::with('sportType')->get();
+
+        return VenueResource::collection($venus);
     }
 
     public function store(VenueRequest $request)
@@ -22,7 +23,7 @@ class VenueController extends Controller
 
         $request->validated();
 
-        $venue = Venue::create([
+        Venue::create([
             'name' => $request->input('name'),
             'sport_type_id' => $request->input('sport_type_id'),
             'size' => $request->input('size'),
@@ -30,7 +31,7 @@ class VenueController extends Controller
             'description' => $request->input('description'),
         ]);
 
-        return new VenueResource($venue);
+        return response()->noContent();
     }
 
     public function show(Venue $venue)
@@ -54,7 +55,7 @@ class VenueController extends Controller
             'description' => $request->input('description'),
         ]);
 
-        return new VenueResource($venue);
+        return response()->noContent();
     }
 
     public function destroy(Venue $venue)
@@ -63,6 +64,6 @@ class VenueController extends Controller
 
         $venue->delete();
 
-        return response()->json();
+        return response()->noContent();
     }
 }

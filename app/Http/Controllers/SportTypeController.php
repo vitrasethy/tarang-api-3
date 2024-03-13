@@ -12,14 +12,20 @@ class SportTypeController extends Controller
     {
 //        $this->authorize('viewAny', SportType::class);
 
-        return SportTypeResource::collection(SportType::all());
+        $sportTypes = SportType::all();
+
+        return SportTypeResource::collection($sportTypes);
     }
 
     public function store(SportTypeRequest $request)
     {
 //        $this->authorize('create', SportType::class);
 
-        return new SportTypeResource(SportType::create($request->validated()));
+        $validated = $request->validated();
+
+        SportType::create($validated);
+
+        return response()->noContent();
     }
 
     public function show(SportType $sportType)
@@ -33,9 +39,11 @@ class SportTypeController extends Controller
     {
 //        $this->authorize('update', $sportType);
 
-        $sportType->update($request->validated());
+        $validated = $request->validated();
 
-        return new SportTypeResource($sportType);
+        $sportType->update($validated);
+
+        return response()->noContent();
     }
 
     public function destroy(SportType $sportType)
@@ -44,6 +52,6 @@ class SportTypeController extends Controller
 
         $sportType->delete();
 
-        return response()->json();
+        return response()->noContent();
     }
 }
